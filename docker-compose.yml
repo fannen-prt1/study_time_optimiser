@@ -1,0 +1,97 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database (Optional - using SQLite by default for simplicity)
+  # Uncomment this section if you want to use PostgreSQL
+  # db:
+  #   image: postgres:15-alpine
+  #   container_name: study-optimizer-db
+  #   environment:
+  #     POSTGRES_USER: ${POSTGRES_USER:-study_optimizer}
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-this-password}
+  #     POSTGRES_DB: ${POSTGRES_DB:-study_optimizer}
+  #   ports:
+  #     - "${DB_PORT:-5432}:5432"
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #     - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+  #   networks:
+  #     - study-optimizer-network
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U study_optimizer"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+
+  # Backend API (FastAPI)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ../docker/Dockerfile.backend
+    container_name: study-optimizer-backend
+    environment:
+      - DATABASE_URL=${DATABASE_URL:-sqlite:///./study_optimizer.db}
+      - SECRET_KEY=${SECRET_KEY:-dev-secret-key-change-in-production}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-dev-jwt-secret-key}
+      - ENVIRONMENT=${ENVIRONMENT:-development}
+      - CORS_ORIGINS=${CORS_ORIGINS:-http://localhost:3000}
+    ports:
+      - "${BACKEND_PORT:-5000}:5000"
+    volumes:
+      - ./backend:/app
+      - backend_data:/app/data
+    # depends_on:
+    #   db:
+    #     condition: service_healthy
+    networks:
+      - study-optimizer-network
+    command: uvicorn app.main:app --host 0.0.0.0 --port 5000 --reload
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Frontend (React + Vite)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ../docker/Dockerfile.frontend
+    container_name: study-optimizer-frontend
+    environment:
+      - VITE_API_URL=${VITE_API_URL:-http://localhost:5000/api/v1}
+      - VITE_APP_NAME=${VITE_APP_NAME:-Study Time Optimizer}
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - study-optimizer-network
+    command: npm run dev -- --host 0.0.0.0
+    stdin_open: true
+    tty: true
+
+  # ML Engine (Optional - can run separately)
+  # ml-engine:
+  #   build:
+  #     context: ./ml-engine
+  #     dockerfile: ../docker/Dockerfile.ml
+  #   container_name: study-optimizer-ml
+  #   volumes:
+  #     - ./ml-engine:/app
+  #     - ml_models:/app/saved_models
+  #   networks:
+  #     - study-optimizer-network
+  #   command: python api/predict.py
+
+networks:
+  study-optimizer-network:
+    driver: bridge
+
+volumes:
+  # postgres_data:
+  backend_data:
+  ml_models:

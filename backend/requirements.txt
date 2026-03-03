@@ -1,0 +1,55 @@
+# Core Framework
+fastapi>=0.115.0  # Updated for middleware compatibility
+uvicorn[standard]==0.27.0
+python-multipart==0.0.6
+
+# Database
+sqlalchemy>=2.0.35  # Updated for Python 3.13 compatibility
+alembic>=1.14.0
+# psycopg2-binary==2.9.9  # PostgreSQL driver (commented out - using SQLite for dev)
+
+# Authentication & Security
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+bcrypt==4.1.2
+pyjwt==2.8.0
+
+# Data Validation
+pydantic>=2.10.0  # Updated for Python 3.13 compatibility
+pydantic-settings>=2.3.0
+email-validator==2.1.0
+
+# HTTP Client
+httpx==0.26.0
+requests==2.31.0
+
+# Email
+aiosmtplib>=3.0.0
+
+# Environment Variables
+python-dotenv==1.0.0
+
+# Date & Time
+python-dateutil==2.8.2
+
+# CORS
+fastapi-cors==0.0.6
+
+# Rate Limiting
+slowapi==0.1.9
+
+# Logging
+loguru==0.7.2
+
+# Serialization
+# orjson==3.9.12  # Commented out - requires Rust compiler
+
+# Background Tasks (optional)
+celery==5.3.4
+redis==5.0.1
+
+# File Upload
+aiofiles==23.2.1
+
+# Utilities
+python-slugify==8.0.1
