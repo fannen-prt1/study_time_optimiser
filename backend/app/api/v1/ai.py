@@ -33,7 +33,8 @@ def _get_predictor():
         return _predictor
 
     # Add ml-engine to path so we can import
-    ml_engine_dir = Path(__file__).resolve().parent.parent.parent.parent.parent / "ml-engine"
+    # Path: backend/app/api/v1/ai.py -> go up 4 levels to backend/ -> ml-engine/
+    ml_engine_dir = Path(__file__).resolve().parent.parent.parent.parent / "ml-engine"
     if str(ml_engine_dir) not in sys.path:
         sys.path.insert(0, str(ml_engine_dir))
 
