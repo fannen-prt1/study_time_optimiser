@@ -24,7 +24,20 @@ class Settings(BaseSettings):
     ENVIRONMENT: str = "development"
     
     # Database
+    # Supports both SQLite (development) and PostgreSQL (production)
+    # Set DATABASE_URL environment variable for production
     DATABASE_URL: str = "sqlite:///./study_optimizer.db"
+
+    @property
+    def database_url(self) -> str:
+        """
+        Get database URL with postgres:// to postgresql:// conversion
+        Some services (like Heroku) provide postgres:// but SQLAlchemy needs postgresql://
+        """
+        url = self.DATABASE_URL
+        if url.startswith("postgres://"):
+            url = url.replace("postgres://", "postgresql://", 1)
+        return url
     
     # Security
     SECRET_KEY: str = "your-super-secret-key-change-this-in-production-min-32-chars"
