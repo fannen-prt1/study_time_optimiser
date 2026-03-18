@@ -6,7 +6,7 @@ python-multipart==0.0.6
 # Database
 sqlalchemy>=2.0.35  # Updated for Python 3.13 compatibility
 alembic>=1.14.0
-psycopg2-binary==2.9.9  # PostgreSQL driver (required for production)
+psycopg2-binary>=2.9.9  # PostgreSQL driver (required for production)
 
 # Authentication & Security
 python-jose[cryptography]==3.3.0
