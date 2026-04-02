@@ -28,14 +28,14 @@ async def lifespan(app: FastAPI):
     Lifecycle events for the application
     """
     # Startup: Create database tables
-    print("🚀 Starting Study Time Optimizer API...")
+    print("Starting Study Time Optimizer API...")
     Base.metadata.create_all(bind=engine)
-    print("✅ Database tables created")
-    
+    print("Database tables created")
+
     yield
-    
+
     # Shutdown: Cleanup
-    print("👋 Shutting down Study Time Optimizer API...")
+    print("Shutting down Study Time Optimizer API...")
 
 
 # Create FastAPI application

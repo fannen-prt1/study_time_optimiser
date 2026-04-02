@@ -182,7 +182,7 @@ async def _send_smtp_email(to_email: str, subject: str, html_body: str) -> bool:
 
 
 # ── Frontend URL ──────────────────────────────────────────────────────────────
-FRONTEND_URL = "http://localhost:3001"
+FRONTEND_URL = "http://localhost:3000"
 
 
 # ── Public API ───────────────────────────────────────────────────────────────

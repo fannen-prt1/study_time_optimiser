@@ -20,7 +20,7 @@ export const ENDPOINTS = {
     CHANGE_PASSWORD: '/auth/change-password',
     VERIFY_EMAIL: '/auth/verify-email',
     RESEND_VERIFICATION: '/auth/resend-verification',
-    FORGOT_PASSWORD: '/auth/forgot-password',
+    FORGOT_PASSWORD: '/auth/request-password-reset',
     RESET_PASSWORD: '/auth/reset-password',
   },
   // Users

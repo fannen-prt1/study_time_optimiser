@@ -80,7 +80,26 @@ export const authService = {
     }
   },
 
+  // Request password reset
+  async requestPasswordReset(email: string): Promise<void> {
+    try {
+      await apiClient.post(ENDPOINTS.AUTH.FORGOT_PASSWORD, { email });
+    } catch (error) {
+      throw new Error(handleApiError(error));
+    }
+  },
 
+  // Reset password with token
+  async resetPassword(token: string, newPassword: string): Promise<void> {
+    try {
+      await apiClient.post(ENDPOINTS.AUTH.RESET_PASSWORD, {
+        token,
+        new_password: newPassword,
+      });
+    } catch (error) {
+      throw new Error(handleApiError(error));
+    }
+  },
 
   // Check if user is authenticated
   isAuthenticated(): boolean {

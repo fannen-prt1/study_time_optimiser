@@ -169,7 +169,7 @@ export function DashboardPage() {
           {/* Key Stats Cards */}
           <div className="flex flex-wrap gap-4 mb-6">
             <StatCard
-              label="Study Score"
+              label="Productivity Score"
               value={productivityScore}
               suffix="/100"
               trend={productivityScore >= 50 ? 'up' : 'down'}

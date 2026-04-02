@@ -32,18 +32,29 @@ def _get_predictor():
     if _predictor is not None:
         return _predictor
 
-    # Add ml-engine to path so we can import
-    # Path: backend/app/api/v1/ai.py -> go up 4 levels to backend/ -> ml-engine/
-    ml_engine_dir = Path(__file__).resolve().parent.parent.parent.parent / "ml-engine"
-    if str(ml_engine_dir) not in sys.path:
-        sys.path.insert(0, str(ml_engine_dir))
+    try:
+        # Add ml-engine to path so we can import
+        # Path: backend/app/api/v1/ai.py -> go up 4 levels to backend/ -> ml-engine/
+        ml_engine_dir = Path(__file__).resolve().parent.parent.parent.parent / "ml-engine"
+        if str(ml_engine_dir) not in sys.path:
+            sys.path.insert(0, str(ml_engine_dir))
 
-    from models.productivity_predictor import ProductivityPredictor
+        print(f"[AI] Loading ML model from: {ml_engine_dir}")
 
-    _predictor = ProductivityPredictor()
-    if not _predictor.load():
+        from models.productivity_predictor import ProductivityPredictor
+
+        _predictor = ProductivityPredictor()
+        if not _predictor.load():
+            print("[AI ERROR] Failed to load model file - file may not exist or is corrupted")
+            return None
+
+        print("[AI] Model loaded successfully")
+        return _predictor
+    except Exception as e:
+        print(f"[AI ERROR] Exception loading model: {e}")
+        import traceback
+        traceback.print_exc()
         return None
-    return _predictor
 
 
 # --- Endpoints ---

@@ -309,8 +309,8 @@ class AuthService:
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Invalid reset token"
             )
-        
-        if user.reset_password_expires < datetime.utcnow():
+
+        if not user.reset_password_expires or user.reset_password_expires < datetime.utcnow():
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Reset token expired"
