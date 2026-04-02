@@ -80,10 +80,10 @@ frontend/dist/
 backend/build/
 *.pyc
 
-# ML Models (track via Git LFS or exclude)
-ml-engine/saved_models/*.pkl
-ml-engine/saved_models/*.joblib
-ml-engine/saved_models/*.h5
+# ML Models - Now tracked via Git LFS (see .gitattributes)
+# ml-engine/saved_models/*.pkl  ← COMMENTED OUT - now using Git LFS
+# ml-engine/saved_models/*.joblib
+# ml-engine/saved_models/*.h5
 
 # Docker
 .dockerignore
@@ -102,3 +102,10 @@ tmp/
 .mypy_cache/
 .dmypy.json
 dmypy.json
+
+# ═══════════════════════════════════════════════════════════════════
+# DOCUMENTATION - ALWAYS TRACK (whitelist)
+# ═══════════════════════════════════════════════════════════════════
+!ML_ROOT_CAUSES.md
+!ML_DEPLOYMENT_GUIDE.md
+!AGENT.md
